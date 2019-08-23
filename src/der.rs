@@ -156,7 +156,8 @@ impl<'a> Decoder<'a> {
         }
 
         // Skip leading zero bytes
-        while rlen > 0 && self.peek(0)? == 0 {
+        // We stop if either found not zero byte or exactly one byte left (so encoded number is zero)
+        while rlen > 1 && self.peek(0)? == 0 {
             rlen -= 1;
             self.read()?;
         }
